@@ -8,9 +8,13 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 INCLUDE_DIRECTORIES(include)
 
+EXEC_PROGRAM(git ARGS "rev-parse HEAD" OUTPUT_VARIABLE REVISION)
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/include/nagoom.hpp.in ${CMAKE_SOURCE_DIR}/include/nagoom.hpp ESCAPE_QUOTES)
+
 SET(NAGOOM_SOURCES
 	src/main.cpp
 	src/nagoom/client.cpp
+	src/nagoom/message.cpp
 	src/nagoom/connection.cpp
 )
 

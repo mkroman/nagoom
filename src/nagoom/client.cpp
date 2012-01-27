@@ -12,8 +12,13 @@ Client::Client(const std::string& name, const std::string& pass)
 
 bool Client::connect()
 {
-	if (!m_connection.established()) {
-		return m_connection.establish();
+	if (!m_connection.established() && m_connection.establish()) {
+		Message loginMessage(Message::LoginMessage);
+
+		loginMessage.append("test");
+		loginMessage.append("test");
+
+		m_connection.transmit(loginMessage);
 	}
 	else {
 		return false;

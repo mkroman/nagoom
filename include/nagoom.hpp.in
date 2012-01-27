@@ -1,7 +1,7 @@
 #ifndef __NAGOOM_HPP
 #define __NAGOOM_HPP
 
-#define _NAGOOM_REVISION "2c6b25b43c3a10b369367ec704a5ddccdc750e8d"
+#define _NAGOOM_REVISION "@REVISION@"
 
 #include "nagoom/client.hpp"
 #include "nagoom/message.hpp"
