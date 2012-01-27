@@ -10,7 +10,8 @@ INCLUDE_DIRECTORIES(include)
 
 SET(NAGOOM_SOURCES
 	src/main.cpp
-	src/networkmanager.cpp
+	src/nagoom/client.cpp
+	src/nagoom/connection.cpp
 )
 
 ADD_EXECUTABLE(nagoom ${NAGOOM_SOURCES})
