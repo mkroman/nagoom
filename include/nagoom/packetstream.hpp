@@ -11,12 +11,12 @@ class PacketStream
 public:
 	PacketStream();
 
-	void append(const uint8_t bytes);
+	void append(const uint8_t* buffer, const size_t size);
 
 	PacketStream& operator<<(uint16_t value);
 
 private:
-	std::vector<uint8_t> m_buffer;
+	std::vector<uint8_t>* m_buffer;
 };
 
 }

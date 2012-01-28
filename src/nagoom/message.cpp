@@ -9,6 +9,11 @@ Message::Message()
 	
 }
 
+std::string Message::encode() const
+{
+	return std::string();
+}
+
 // for (int i = 0; i < finalbytes.length; i++)
 // {
 // 	int tmp7_6 = i;
