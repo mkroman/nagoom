@@ -24,6 +24,20 @@ public:
 
  	std::string encode() const;
 
+ 	Message& operator<<(uint16_t value)
+ 	{
+ 		m_buffer << value;
+
+ 		return *this;
+ 	}
+
+	Message& operator<<(const std::string& value)
+	{
+		m_buffer << value;
+
+		return *this;
+	}
+
 private:
 	PacketStream m_buffer;
 };

@@ -14,12 +14,13 @@ Client::Client(const std::string& name, const std::string& pass)
 bool Client::connect()
 {
 	if (!m_connection.established() && m_connection.establish()) {
-		// Message loginMessage(Message::LoginMessage);
+		Message loginMessage;
 
-		// loginMessage.append("test");
-		// loginMessage.append("test");
+		loginMessage << (uint16_t)1001;
+		loginMessage << std::string("kongsonant");
+		loginMessage << std::string("kongsonant");
 
-		// m_connection.transmit(loginMessage);
+		m_connection.transmit(loginMessage);
 	}
 	else {
 		return false;
