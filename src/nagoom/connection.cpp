@@ -6,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 
+#include "nagoom.hpp"
 #include "nagoom/connection.hpp"
 
 using namespace nagoom;
@@ -60,7 +61,20 @@ bool Connection::establish()
 
 void Connection::transmit(const Message& message)
 {
-	std::cout << "Transmitting message of type " << message.type() << std::endl;
+	size_t written;
+	std::string output = message.encode();
+
+	written = send(m_socket, output.c_str(), output.length(), 0);
+
+	if (written == -1) {
+		error("write() failed");
+	}
+	else if (written == 0) {
+		error("didn't send any data");
+	}
+	else {
+		// flush(m_socket);
+	}
 }
 
 bool Connection::established()

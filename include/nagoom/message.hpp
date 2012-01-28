@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "nagoom/packetstream.hpp"
+
 namespace nagoom
 {
 
@@ -18,22 +20,12 @@ static const char ciphers[] = "\x88\x3d\x74\x45\x21\xd3\x67\xec\xaa\x17\x3b\x02\
 class Message
 {
 public:
-	enum Type
-	{
-		LoginMessage = 1001
-	};
+	Message();
 
-	Message(Type type);
-
-	std::string& append(const std::string& string);
-
-	Type type() const {
-		return m_type;
-	}
+ 	std::string encode() const;
 
 private:
-	Type m_type;
-	std::string m_buffer;
+	PacketStream m_buffer;
 };
 
 }

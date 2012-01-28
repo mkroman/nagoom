@@ -8,9 +8,9 @@
 #include "nagoom/connection.hpp"
 
 #define debug(string) \
-	std::cout << " \e[0;1mDebug\e[0;0m  " << string << endl;
+	std::cout << " \e[0;1mDebug\e[0;0m  " << string << std::endl;
 
 #define error(string) \
-	std::cout << " \e[1;31mError\e[0;0m  " << string << endl;
+	std::cout << " \e[1;31mError\e[0;0m  " << string << std::endl;
 
 #endif
