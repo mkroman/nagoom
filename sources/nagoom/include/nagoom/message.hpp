@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "byteorder.h"
-
 namespace nagoom
 {
 

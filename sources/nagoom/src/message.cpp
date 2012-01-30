@@ -2,7 +2,6 @@
 #include <sstream>
 #include <iostream>
 
-#include "byteorder.h"
 #include "nagoom.hpp"
 #include "nagoom/message.hpp"
 

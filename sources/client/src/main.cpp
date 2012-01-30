@@ -4,6 +4,7 @@
 #include <fstream>
 
 #include "nagoom.hpp"
+#include "serializer/container.hpp"
 
 void printCipherText();
 
@@ -19,15 +20,31 @@ int main(int argc, char** argv)
 
 	cout << endl;
 
-	debug("Instantiating client …");
+	debug("Debugging serializer container …");
 
-	nagoom::Client* client = new nagoom::Client("test", "test");
+	serializer::Container container;
 
-	debug("Establishing connection …");
+	container << 200;
+	container << "abc";
 
-	if (client->connect()) {
-		debug("Connection established, sending handshake …");
-	}
+	std::string test;
+
+
+	container.dump(test);
+
+	std::ofstream fil("/home/mk/out.bin");
+	fil.write(test.c_str(), test.length());
+	fil.close();
+
+	// debug("Instantiating client …");
+
+	// nagoom::Client* client = new nagoom::Client("test", "test");
+
+	// debug("Establishing connection …");
+
+	// if (client->connect()) {
+	// 	debug("Connection established, sending handshake …");
+	// }
 
 	return 0;
 }

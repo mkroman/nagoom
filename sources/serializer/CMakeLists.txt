@@ -1,0 +1,10 @@
+INCLUDE_DIRECTORIES(include)
+
+SET(SERIALIZER_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "Serializer include directory")
+
+SET(SERIALIZER_SOURCES
+	src/file.cpp
+	src/container.cpp
+)
+
+ADD_LIBRARY(serializer SHARED ${SERIALIZER_SOURCES})
