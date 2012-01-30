@@ -1,7 +1,7 @@
 #ifndef __NAGOOM_HPP
 #define __NAGOOM_HPP
 
-#define _NAGOOM_REVISION "@REVISION@"
+#define _NAGOOM_REVISION "1e24a4a5"
 
 #include "nagoom/client.hpp"
 #include "nagoom/message.hpp"
@@ -12,5 +12,8 @@
 
 #define error(string) \
 	std::cout << " \e[1;31mError\e[0;0m  " << string << std::endl;
+
+#define warn(string) \
+	std::cout << " \e[1;36mWarn\e[0;0m   " << string << std::endl;
 
 #endif
