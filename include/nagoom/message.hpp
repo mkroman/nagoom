@@ -2,8 +2,9 @@
 #define __MESSAGE_HPP
 
 #include <string>
+#include <vector>
 
-#include "nagoom/packetstream.hpp"
+#include "byteorder.h"
 
 namespace nagoom
 {
@@ -24,22 +25,32 @@ public:
 
  	std::string encode() const;
 
- 	Message& operator<<(uint16_t value)
+ 	inline Message& operator<<(int16_t value)
  	{
- 		m_buffer << value;
+ 		uint16_t converted = htobe16(value);
+
+ 		append(reinterpret_cast<uint8_t*>(&converted), sizeof(converted));
 
  		return *this;
  	}
 
-	Message& operator<<(const std::string& value)
-	{
-		m_buffer << value;
+ 	inline Message& operator<<(const std::string& value)
+ 	{
+ 		char* buffer = const_cast<char*>(value.c_str());
 
-		return *this;
+ 		append(reinterpret_cast<uint8_t*>(buffer), value.length());
+
+ 		return *this;
+ 	}
+
+protected:
+	inline void append(const uint8_t* buffer, const size_t size)
+	{
+		m_buffer.insert(end(m_buffer), buffer, buffer + size);
 	}
 
 private:
-	PacketStream m_buffer;
+	std::vector<uint8_t> m_buffer;
 };
 
 }

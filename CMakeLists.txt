@@ -19,7 +19,6 @@ SET(NAGOOM_SOURCES
 	src/nagoom/client.cpp
 	src/nagoom/message.cpp
 	src/nagoom/connection.cpp
-	src/nagoom/packetstream.cpp
 )
 
 ADD_EXECUTABLE(nagoom ${NAGOOM_SOURCES})

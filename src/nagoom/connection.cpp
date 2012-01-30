@@ -30,7 +30,7 @@ bool Connection::establish()
 	m_socket = socket(AF_INET, SOCK_STREAM, 0);
 
 	if (m_socket < 0) {
-		perror("unable to create socket");
+		error("Unable to create socket");
 
 		return false;
 	}
@@ -38,7 +38,7 @@ bool Connection::establish()
 	remote_host = gethostbyname(m_host.c_str());
 
 	if (remote_host == nullptr) {
-		perror("unable to translate remote host");
+		error("Unable to translate remote host");
 
 		return false;
 	}
@@ -51,7 +51,7 @@ bool Connection::establish()
 	result = connect(m_socket, (struct sockaddr*)&remote_addr, sizeof(struct sockaddr));
 
 	if (result < 0) {
-		perror("could not establish a connection");
+		error("Could not establish a connection");
 
 		return false;
 	}
@@ -62,17 +62,19 @@ bool Connection::establish()
 void Connection::transmit(const Message& message)
 {
 	size_t written;
-	std::string output = message.encode();
 
-	written = send(m_socket, output.c_str(), output.length(), 0);
+	std::string buffer = message.encode();
+
+	written = send(m_socket, buffer.c_str(), buffer.length(), 0);
 
 	if (written == -1) {
-		error("write() failed");
+		error("Could not write data!");
 	}
 	else if (written == 0) {
-		error("didn't send any data");
+		warn("Didn't transfer any data!");
 	}
 	else {
+		debug("Transmitting data: " << buffer);
 		// flush(m_socket);
 	}
 }
