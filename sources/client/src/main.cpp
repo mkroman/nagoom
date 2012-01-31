@@ -4,11 +4,13 @@
 #include <fstream>
 
 #include "nagoom.hpp"
+#include "serializer/variant.hpp"
 #include "serializer/container.hpp"
 
 void printCipherText();
 
 using namespace std;
+using namespace serializer;
 
 int main(int argc, char** argv)
 {
@@ -24,17 +26,18 @@ int main(int argc, char** argv)
 
 	serializer::Container container;
 
-	container << 200;
-	container << "abc";
+	//container << 200;
+	container << std::string("abc");
 
-	std::string test;
+	std::cout << container.serialize() << std::endl;
 
+	// std::ofstream fil("/home/mk/out.bin");
+	// fil.write(data, length);
+	// fil.close();
 
-	container.dump(test);
-
-	std::ofstream fil("/home/mk/out.bin");
-	fil.write(test.c_str(), test.length());
-	fil.close();
+	// Variant variant;
+	// variant = (uint8_t)0x40;
+	// std::cout << variant.toString() << std::endl;
 
 	// debug("Instantiating client …");
 

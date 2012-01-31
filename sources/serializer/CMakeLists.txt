@@ -3,6 +3,7 @@ INCLUDE_DIRECTORIES(include)
 SET(SERIALIZER_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "Serializer include directory")
 
 SET(SERIALIZER_SOURCES
+	src/variant.cpp
 	src/container.cpp
 )
 

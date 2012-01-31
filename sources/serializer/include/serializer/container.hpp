@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstdint>
 #include "serializer.hpp"
+#include "serializer/variant.hpp"
 
 namespace serializer
 {
@@ -13,31 +14,19 @@ class Container
 {
 public:
 	Container(const Protocol protocol = Protocol::V5);
+	~Container();
 
-	const std::vector<uint8_t>& buffer()
-	{
-		return m_buffer;
-	}
+	Container& operator<<(const int value);
+	Container& operator<<(const std::string& value);
 
-	Container& operator<<(const int32_t value);
-	Container& operator<<(const std::string& string);
+	std::string serialize() const;
 
-	void dump(std::string& output)
-	{
-		m_buffer.insert(m_buffer.begin() + 5, m_count);
-
-		for (uint8_t& byte : m_buffer) {
-			output.push_back(byte);
-		}
-	}
-
-protected:
-	void push(uint8_t* pointer, size_t size = 1);
+	size_t byteSize() const;
 
 private:
-	uint8_t m_count;
+	char m_header[4];
 	Protocol m_protocol;
-	std::vector<uint8_t> m_buffer;
+	std::vector<Variant> m_variants;
 };
 
 }
