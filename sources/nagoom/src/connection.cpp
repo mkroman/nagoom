@@ -63,7 +63,7 @@ void Connection::transmit(const Message& message)
 {
 	size_t written;
 
-	std::string buffer = message.encode();
+	std::string buffer = message.encode(1000);
 
 	written = send(m_socket, buffer.c_str(), buffer.length(), 0);
 

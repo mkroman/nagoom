@@ -24,14 +24,6 @@ int main(int argc, char** argv)
 
 	debug("Debugging serializer container …");
 
-	serializer::Container container;
-
-	container << (uint8_t)0x68;
-	container << 200;
-	container << "abc";
-
-	std::cout << container.serialize();
-
 	// debug("Instantiating client …");
 
 	// nagoom::Client* client = new nagoom::Client("test", "test");

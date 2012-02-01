@@ -82,7 +82,7 @@ public:
 				break;
 
 			case Integer:
-				return (sizeof(uint16_t));
+				return (sizeof(uint32_t));
 				break;
 		}
 	}

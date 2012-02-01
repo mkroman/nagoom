@@ -8,35 +8,19 @@
 using namespace nagoom;
 
 Message::Message()
-	: m_buffer()
 {
 	
 }
 
-std::string Message::encode() const
+std::string Message::encode(uint16_t key) const
 {
-	uint16_t header[2];
-	uint16_t packet_key;
+	size_t ciphersLength = strlen(ciphers);
+	std::string data = m_container.serialize();
 
-	packet_key = rand() % strlen(ciphers);
-
-	header[0] = static_cast<uint16_t>(m_buffer.size());
-	header[1] = packet_key;
-
-	std::string data(m_buffer.begin(), m_buffer.end());
-	std::stringstream buffer;
-
-	debug("packet_key: " << packet_key);
-	debug("body size: " << header[0]);
-
-	for (int i = 0; i < m_buffer.size(); i++)
+	for (int i = 0; i < data.length(); i++)
 	{
-		data[i] = (m_buffer[i] ^ ciphers[(packet_key + i) % strlen(ciphers)]);
-
-		debug("Encrypting: " << m_buffer[i] << " -> " << data[i]);
+		data[i] = (data[i] ^ ciphers[(key + i) % ciphersLength]);
 	}
 
-	buffer << header[0] << header[1] << data;
-
-	return buffer.str();
+	return data;
 }

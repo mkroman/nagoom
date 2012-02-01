@@ -10,4 +10,7 @@ enum class Protocol {
 
 }
 
+#include "serializer/variant.hpp"
+#include "serializer/container.hpp"
+
 #endif

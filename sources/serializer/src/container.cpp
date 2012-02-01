@@ -24,10 +24,30 @@ Container::Container(const Protocol protocol)
 
 std::string Container::serialize() const
 {
+	size_t size;
 	std::stringstream buffer;
 
 	// Write the headers
 	buffer.write(m_header, sizeof(m_header));
+
+	// Calculate the total byte size
+	for (const Variant* variant : m_variants)
+		size += variant->byteSize();
+
+	// If the total byte size is larger than the max value of a single
+	// byte, write a BLOCKDATALONG type field followed by a short size field
+	if (size > 255) {
+		uint16_t sizeShort = htobe16(static_cast<uint16_t>(size));
+
+		buffer.put('\x7A');
+		buffer.write(reinterpret_cast<char*>(&sizeShort), sizeof(uint16_t));
+	}
+	else {
+		uint8_t sizeByte = static_cast<uint8_t>(size);
+
+		buffer.put('\x77');
+		buffer.write(reinterpret_cast<char*>(&sizeByte), sizeof(uint8_t));
+	}
 
 	// Write the variadic objects
 	for (const Variant* variant : m_variants)

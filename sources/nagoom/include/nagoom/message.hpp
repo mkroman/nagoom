@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "serializer.hpp"
+
 namespace nagoom
 {
 
@@ -20,35 +22,11 @@ class Message
 {
 public:
 	Message();
-
- 	std::string encode() const;
-
- 	inline Message& operator<<(int16_t value)
- 	{
- 		uint16_t converted = htobe16(value);
-
- 		append(reinterpret_cast<uint8_t*>(&converted), sizeof(converted));
-
- 		return *this;
- 	}
-
- 	inline Message& operator<<(const std::string& value)
- 	{
- 		char* buffer = const_cast<char*>(value.c_str());
-
- 		append(reinterpret_cast<uint8_t*>(buffer), value.length());
-
- 		return *this;
- 	}
-
-protected:
-	inline void append(const uint8_t* buffer, const size_t size)
-	{
-		m_buffer.insert(end(m_buffer), buffer, buffer + size);
-	}
+	
+ 	std::string encode(uint16_t key) const;
 
 private:
-	std::vector<uint8_t> m_buffer;
+	serializer::Container m_container;
 };
 
 }
