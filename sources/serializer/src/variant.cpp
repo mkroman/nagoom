@@ -35,6 +35,15 @@ const Variant& Variant::operator=(uint8_t rhs)
 	m_byteValue = rhs;
 }
 
+const Variant& Variant::operator=(uint16_t rhs)
+{
+	if (m_type != Variant::Short)
+		clear();
+
+	m_type = Variant::Short;
+	m_shortValue = rhs;
+}
+
 const Variant& Variant::operator=(const char* rhs)
 {
 	if (m_type != Variant::String)
@@ -81,6 +90,27 @@ uint8_t Variant::toByte() const
 	}
 }
 
+uint16_t Variant::toShort() const
+{
+	switch (m_type)
+	{
+		case Variant::Byte:
+			return static_cast<uint16_t>(m_byteValue);
+			break;
+
+		case Variant::Integer:
+			return static_cast<uint16_t>(m_intValue);
+			break;
+
+		case Variant::Short:
+			return m_shortValue;
+			break;
+
+		default:
+			return 0;
+	}
+}
+
 int Variant::toInt() const
 {
 	switch (m_type)
@@ -120,6 +150,15 @@ std::string Variant::toString() const
 		{
 			std::stringstream stream;
 			stream << m_intValue;
+
+			return stream.str();
+			break;
+		}
+
+		case Variant::Short:
+		{
+			std::stringstream stream;
+			stream << m_shortValue;
 
 			return stream.str();
 			break;

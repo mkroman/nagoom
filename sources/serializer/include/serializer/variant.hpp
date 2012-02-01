@@ -16,6 +16,7 @@ public:
 	{
 		Null,
 		Byte,
+		Short,
 		String,
 		Integer
 	};
@@ -25,6 +26,7 @@ public:
 
 	const Variant& operator=(int rhs);
 	const Variant& operator=(uint8_t rhs);
+	const Variant& operator=(uint16_t rhs);
 	const Variant& operator=(const char* rhs);
 	const Variant& operator=(const std::string& rhs);
 
@@ -36,6 +38,11 @@ public:
 	}
 
 	const Variant& setValue(uint8_t value)
+	{
+		return operator=(value);
+	}
+
+	const Variant& setValue(uint16_t value)
 	{
 		return operator=(value);
 	}
@@ -89,6 +96,7 @@ public:
 
 	int toInt() const;
 	uint8_t toByte() const;
+	uint16_t toShort() const;
 	std::string toString() const;
 
 private:
@@ -97,6 +105,7 @@ private:
 		m_intValue = 0;
 		m_charPointerValue = nullptr;
 		m_byteValue = 0;
+		m_shortValue = 0;
 	}
 
 	VariantType m_type;
@@ -105,6 +114,7 @@ private:
 		int m_intValue;
 		char* m_charPointerValue;
 		uint8_t m_byteValue;
+		uint16_t m_shortValue;
 	};
 
 	size_t m_length;

@@ -77,6 +77,15 @@ std::string Container::serialize() const
 				break;
 			}
 
+			case Variant::Short:
+			{
+				uint16_t value = variant->toShort();
+
+				buffer.write(reinterpret_cast<char*>(&value), sizeof(uint16_t));
+
+				break;
+			}
+
 			case Variant::Byte:
 			{
 				uint8_t value = variant->toByte();
