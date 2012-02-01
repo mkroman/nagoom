@@ -19,6 +19,7 @@ public:
 
 	Container& operator<<(const int value);
 	Container& operator<<(const uint8_t value);
+	Container& operator<<(const uint16_t value);
 	Container& operator<<(const std::string& value);
 
 	std::string serialize() const;

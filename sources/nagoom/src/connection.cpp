@@ -4,6 +4,7 @@
 #include <netdb.h>
 
 #include <iostream>
+#include <sstream>
 #include <cstring>
 
 #include "nagoom.hpp"
@@ -63,9 +64,18 @@ void Connection::transmit(const Message& message)
 {
 	size_t written;
 
-	std::string buffer = message.encode(1000);
+	std::stringstream buffer;
+	std::string data = message.encode(20);
 
-	written = send(m_socket, buffer.c_str(), buffer.length(), 0);
+	uint16_t twenty = htobe16(20);
+
+	buffer.write(reinterpret_cast<char*>(&twenty), sizeof(uint16_t));
+	buffer.write(reinterpret_cast<char*>(&twenty), sizeof(uint16_t));
+	buffer.write(data.c_str(), data.length());
+
+	std::string out = buffer.str();
+
+	written = send(m_socket, out.c_str(), out.length(), 0);
 
 	if (written == -1) {
 		error("Could not write data!");
@@ -74,7 +84,7 @@ void Connection::transmit(const Message& message)
 		warn("Didn't transfer any data!");
 	}
 	else {
-		debug("Transmitting data: " << buffer);
+		debug("Transmitting data: " << out);
 		// flush(m_socket);
 	}
 }

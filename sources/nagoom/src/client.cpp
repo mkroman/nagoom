@@ -14,9 +14,14 @@ Client::Client(const std::string& name, const std::string& pass)
 bool Client::connect()
 {
 	if (!m_connection.established() && m_connection.establish()) {
-		
+		return true;
 	}
 	else {
 		return false;
 	}
+}
+
+void Client::send(const Message& message)
+{
+	m_connection.transmit(message);
 }

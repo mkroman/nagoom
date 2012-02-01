@@ -88,6 +88,10 @@ public:
 				return (sizeof(uint16_t) + sizeof(char) * length());
 				break;
 
+			case Short:
+				return (sizeof(uint16_t));
+				break;
+
 			case Integer:
 				return (sizeof(uint32_t));
 				break;

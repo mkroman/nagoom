@@ -24,7 +24,7 @@ Container::Container(const Protocol protocol)
 
 std::string Container::serialize() const
 {
-	size_t size;
+	size_t size = 0;
 	std::stringstream buffer;
 
 	// Write the headers
@@ -59,6 +59,8 @@ std::string Container::serialize() const
 				std::string value = variant->toString();
 				uint16_t length = htobe16(static_cast<uint16_t>(value.length()));
 
+				std::cout << "length is " << value.length() << std::endl;
+
 				// Write the string length as a short
 				buffer.write(reinterpret_cast<char*>(&length), sizeof(uint16_t));
 
@@ -70,6 +72,7 @@ std::string Container::serialize() const
 
 			case Variant::Integer:
 			{
+				std::cout << "variant is int" << std::endl;
 				uint32_t value = htobe32(static_cast<uint32_t>(variant->toInt()));
 
 				buffer.write(reinterpret_cast<char*>(&value), sizeof(uint32_t));
@@ -79,7 +82,7 @@ std::string Container::serialize() const
 
 			case Variant::Short:
 			{
-				uint16_t value = variant->toShort();
+				uint16_t value = htobe16(variant->toShort());
 
 				buffer.write(reinterpret_cast<char*>(&value), sizeof(uint16_t));
 
@@ -119,6 +122,16 @@ Container& Container::operator<<(const int value)
 Container& Container::operator<<(const uint8_t value)
 {
 	Variant* variant = new Variant(Variant::Byte);
+	variant->setValue(value);
+
+	m_variants.push_back(variant);
+
+	return *this;
+}
+
+Container& Container::operator<<(const uint16_t value)
+{
+	Variant* variant = new Variant(Variant::Short);
 	variant->setValue(value);
 
 	m_variants.push_back(variant);
