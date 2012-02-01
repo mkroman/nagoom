@@ -30,6 +30,26 @@ public:
 
 	~Variant();
 
+	const Variant& setValue(int value)
+	{
+		return operator=(value);
+	}
+
+	const Variant& setValue(uint8_t value)
+	{
+		return operator=(value);
+	}
+
+	const Variant& setValue(const char* value)
+	{
+		return operator=(value);
+	}
+
+	const Variant& setValue(const std::string& value)
+	{
+		return operator=(value);
+	}
+
 	bool empty() const;
 
 	VariantType type() const
@@ -68,6 +88,7 @@ public:
 	}
 
 	int toInt() const;
+	uint8_t toByte() const;
 	std::string toString() const;
 
 private:

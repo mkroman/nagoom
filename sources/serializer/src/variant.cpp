@@ -66,6 +66,21 @@ const Variant& Variant::operator=(const std::string& rhs)
 	return *this;
 }
 
+uint8_t Variant::toByte() const
+{
+	switch (m_type)
+	{
+		case Variant::String:
+		case Variant::Null:
+			return 0;
+			break;
+
+		case Variant::Byte:
+			return m_byteValue;
+			break;
+	}
+}
+
 int Variant::toInt() const
 {
 	switch (m_type)

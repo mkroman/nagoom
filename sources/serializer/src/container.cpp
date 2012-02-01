@@ -30,15 +30,39 @@ std::string Container::serialize() const
 	buffer.write(m_header, sizeof(m_header));
 
 	// Write the variadic objects
-	for (const Variant& variant : m_variants)
+	for (const Variant* variant : m_variants)
 	{
-		switch (variant.type())
+		switch (variant->type())
 		{
 			case Variant::String:
 			{
-				std::cout << "hejs " << variant.toString() << " dejs" << std::endl;
+				std::string value = variant->toString();
+				uint16_t length = htobe16(static_cast<uint16_t>(value.length()));
 
-				//buffer.write(value.c_str(), value.length());
+				// Write the string length as a short
+				buffer.write(reinterpret_cast<char*>(&length), sizeof(uint16_t));
+
+				// Write the string contents
+				buffer.write(value.c_str(), value.length());
+
+				break;
+			}
+
+			case Variant::Integer:
+			{
+				uint32_t value = htobe32(static_cast<uint32_t>(variant->toInt()));
+
+				buffer.write(reinterpret_cast<char*>(&value), sizeof(uint32_t));
+
+				break;
+			}
+
+			case Variant::Byte:
+			{
+				uint8_t value = variant->toByte();
+
+				buffer.write(reinterpret_cast<char*>(&value), sizeof(uint8_t));
+
 				break;
 			}
 		}
@@ -49,31 +73,37 @@ std::string Container::serialize() const
 
 Container::~Container()
 {
-	
-}
-
-Container& Container::operator<<(const std::string& value)
-{
-	Variant* variant = new Variant;
-	*variant = value;
-
-	//m_variants.insert(end(m_variants), variant);
-	m_variants.push_back(*variant);
-
-	// uint16_t length = htobe16(string.length());
-
-	// push(reinterpret_cast<uint8_t*>(&length), sizeof(uint16_t));
-
-	// for (char character : string) {
-	// 	m_buffer.push_back(character);
-	// }
-	return *this;
+	for (Variant* variant : m_variants)
+		delete variant;
 }
 
 Container& Container::operator<<(const int value)
 {
-	// int32_t converted = htobe32(value);
+	Variant* variant = new Variant(Variant::Integer);
+	variant->setValue(value);
 
-	// push(reinterpret_cast<uint8_t*>(&converted), sizeof(uint32_t));
+	m_variants.push_back(variant);
+
 	return *this;
 }
+
+Container& Container::operator<<(const uint8_t value)
+{
+	Variant* variant = new Variant(Variant::Byte);
+	variant->setValue(value);
+
+	m_variants.push_back(variant);
+
+	return *this;
+}
+
+Container& Container::operator<<(const std::string& value)
+{
+	Variant* variant = new Variant(Variant::String);
+	variant->setValue(value);
+
+	m_variants.push_back(variant);
+
+	return *this;
+}
+

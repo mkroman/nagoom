@@ -26,18 +26,11 @@ int main(int argc, char** argv)
 
 	serializer::Container container;
 
-	//container << 200;
-	container << std::string("abc");
+	container << (uint8_t)0x68;
+	container << 200;
+	container << "abc";
 
-	std::cout << container.serialize() << std::endl;
-
-	// std::ofstream fil("/home/mk/out.bin");
-	// fil.write(data, length);
-	// fil.close();
-
-	// Variant variant;
-	// variant = (uint8_t)0x40;
-	// std::cout << variant.toString() << std::endl;
+	std::cout << container.serialize();
 
 	// debug("Instantiating client …");
 

@@ -17,6 +17,7 @@ public:
 	~Container();
 
 	Container& operator<<(const int value);
+	Container& operator<<(const uint8_t value);
 	Container& operator<<(const std::string& value);
 
 	std::string serialize() const;
@@ -26,7 +27,7 @@ public:
 private:
 	char m_header[4];
 	Protocol m_protocol;
-	std::vector<Variant> m_variants;
+	std::vector<Variant*> m_variants;
 };
 
 }
